@@ -11,26 +11,28 @@ logging.basicConfig(filename="bot.log", level=logging.INFO)#куда сохра�
 #создаем функцию "greet_user" для ответа на старт 
 def greet_user(update, context):
     print("Вызван /start") #бот сообщает в консоль
-    print(update)   #посмотреть в консоле информацию о пользователе
+    #print(update)   #посмотреть в консоле информацию о пользователе
     update.message.reply_text("Здравствуй пользователь") #ответ пользователю
 
 def talk_to_me(update, context):
-    text = update.message_text
-    print()
+    text = update.message.text
+    print(text)
     update.message.reply_text(text)
 
 #создаем бота "main" 
 def main():
     # Передаем ему ключ для авторизации на серверах Telegram
     mybot = Updater(setting.API_KEY, use_context = True)
+
     dp = mybot.dispatcher #диспетчер dp - сокращенно
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-    logging.info ("Бот стартовал") #почему-то не работает в bot.log не пишет 
+
+    logging.info("Бот стартовал") #почему-то не работает в bot.log не пишет 
     # Командуем боту начать ходить в Telegram за сообщениями    
     mybot.start_polling()
 
     # Запускаем бота, он будет работать, пока мы его не остановим принудительно ctrl+c
     mybot.idle()
-
-main()
+if __name__ == "__main__":
+    main()
